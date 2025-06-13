@@ -1,0 +1,21 @@
+echo "__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+.env
+*.json
+instance/
+.env.*
+*.sqlite3
+*.log
+*.bak
+.DS_Store
+.vscode/
+.idea/
+__init__.py
+*.egg-info/
+# Custom ignores
+credentials.json
+postsamaysetu-b1745-firebase-adminsdk-fbsvc-e5007a80ea.json
+" > .gitignore

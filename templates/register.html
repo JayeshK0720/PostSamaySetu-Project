@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register | Delivery System</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+/>
+
+    <style>
+      :root {
+        --primary-color: #800020;
+        --secondary-color: #ffd700;
+        --background-color: #fffff0;
+        --text-color: #2f4f4f;
+        --footer-bg: #000;
+        --footer-text: #f5f5f5;
+        --input-bg: #fffaf0;
+        --input-border: #ccc;
+        --input-focus: #800020;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background: url("{{ url_for('static', filename='claudio-schwarz-q8kR_ie6WnI-unsplash.jpg') }}")
+          no-repeat center/cover;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 500px;
+        margin: 2rem auto;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        border: 2px solid var(--primary-color);
+        text-align: center;
+        backdrop-filter: blur(10px);
+      }
+
+      h1 {
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      label {
+        font-weight: bold;
+        text-align: left;
+        color: var(--primary-color);
+      }
+
+      input,
+      select {
+        padding: 0.75rem;
+        border-radius: 5px;
+        border: 1px solid var(--input-border);
+        font-size: 1rem;
+        width: 100%;
+        background-color: var(--input-bg);
+        transition: border-color 0.3s, box-shadow 0.3s;
+      }
+
+      input:focus,
+      select:focus {
+        border-color: var(--input-focus);
+        box-shadow: 0 0 5px var(--primary-color);
+        outline: none;
+        background-color: #ffffff;
+      }
+
+      .password-wrapper {
+        position: relative;
+      }
+
+      .toggle-password {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: var(--primary-color);
+      }
+
+      .error {
+        color: red;
+        font-size: 0.9rem;
+        display: none;
+        text-align: left;
+      }
+
+      button {
+        padding: 0.75rem;
+        background: var(--primary-color);
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s, color 0.3s;
+      }
+
+      button:hover {
+        background: var(--secondary-color);
+        color: black;
+      }
+
+      #map {
+        width: 100%;
+        height: 300px;
+        border-radius: 5px;
+        margin-top: 1rem;
+      }
+
+      .footer {
+        text-align: center;
+        margin-top: 2rem;
+        padding: 1rem;
+        background: var(--footer-bg);
+        color: var(--footer-text);
+        width: 100%;
+      }
+
+      .or-divider {
+        margin: 1.5rem 0;
+        position: relative;
+      }
+
+      .or-divider hr {
+        border: none;
+        border-top: 1px solid rgba(0, 0, 0, 0.3);
+      }
+
+      .or-divider span {
+        position: absolute;
+        top: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(255, 255, 255, 0.9);
+        padding: 0 10px;
+        font-weight: bold;
+        color: var(--text-color);
+      }
+
+      .google-btn {
+        background: white;
+        color: var(--primary-color);
+        border: 2px solid var(--primary-color);
+        padding: 0.6rem 1.2rem;
+        font-size: 1rem;
+        font-weight: bold;
+        border-radius: 5px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .google-btn:hover {
+        background: var(--secondary-color);
+        color: black;
+        border-color: var(--secondary-color);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Register</h1>
+      <form action="/register" method="POST" onsubmit="return validateForm()">
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" required />
+
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required />
+        <p id="emailError" class="error">Invalid email format</p>
+
+        <label for="phone">Phone:</label>
+        <input type="tel" name="phone" id="phone" required />
+        <p id="phoneError" class="error">Invalid phone number</p>
+
+        <label for="address">Address:</label>
+        <input type="text" name="address" id="address" required />
+
+        <label for="password">Password:</label>
+        <div class="password-wrapper">
+          <input type="password" name="password" id="password" required />
+          <span class="toggle-password" onclick="togglePassword()">👁️</span>
+        </div>
+
+        <label for="confirmPassword">Reconfirm Password:</label>
+        <input
+          type="password"
+          name="confirm_password"
+          id="confirmPassword"
+          required
+        />
+        <p id="passwordError" class="error">Passwords do not match</p>
+
+        <label>Pin Location:</label>
+        <div id="map"></div>
+        <input type="hidden" name="location" id="location" required />
+
+        <label for="security_question">Security Question:</label>
+        <select name="security_question" id="security_question">
+          <option value="What is your pet's name?">
+            What is your pet's name?
+          </option>
+          <option value="What is your mother's maiden name?">
+            What is your mother's maiden name?
+          </option>
+          <option value="What is your favorite color?">
+            What is your favorite color?
+          </option>
+        </select>
+
+        <label for="security_answer">Security Answer:</label>
+        <input
+          type="text"
+          name="security_answer"
+          id="security_answer"
+          required
+        />
+
+        <button type="submit">Register</button>
+
+        <!-- Google Sign Up Button -->
+        <div class="or-divider">
+          <hr />
+          <span>or</span>
+        </div>
+        <div style="text-align: center">
+          <button
+            type="button"
+            class="google-btn"
+            onclick="registerWithGoogle()"
+          >
+            <i class="fab fa-google"></i>
+                Register with Google
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <footer class="footer">
+      &copy; 2025 Delivery System. All rights reserved.
+    </footer>
+
+    <script>
+      function togglePassword() {
+        const pass = document.getElementById("password");
+        pass.type = pass.type === "password" ? "text" : "password";
+      }
+
+      function validateForm() {
+        const email = document.getElementById("email").value;
+        const phone = document.getElementById("phone").value;
+        const pass = document.getElementById("password").value;
+        const confirm = document.getElementById("confirmPassword").value;
+
+        document.getElementById("emailError").style.display =
+          /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? "none" : "block";
+        document.getElementById("phoneError").style.display =
+          /^\+?\d{10,15}$/.test(phone) ? "none" : "block";
+        document.getElementById("passwordError").style.display =
+          pass === confirm ? "none" : "block";
+
+        return !document.querySelectorAll('.error[style="display: block;"]')
+          .length;
+      }
+
+      // Location picker
+      const map = L.map("map").setView([20.0, 77.0], 5);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+      }).addTo(map);
+      const marker = L.marker([20.0, 77.0], { draggable: true }).addTo(map);
+      function updateLocation(loc) {
+        document.getElementById("location").value = loc.lat + "," + loc.lng;
+      }
+      marker.on("dragend", (e) => updateLocation(e.target.getLatLng()));
+      map.on("click", (e) => {
+        marker.setLatLng(e.latlng);
+        updateLocation(e.latlng);
+      });
+      updateLocation(marker.getLatLng());
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/11.9.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.9.0/firebase-auth-compat.js"></script>
+
+    <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyDGafZMBlvhq9PmG2_XETGFMO1F3xiu-JU",
+    authDomain: "postsamaysetu-b1745.firebaseapp.com",
+    projectId: "postsamaysetu-b1745",
+    appId: "1:648461531295:web:60308d5586b7b500d58aaa",
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
+window.registerWithGoogle = async function () {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      const idToken = await user.getIdToken();
+
+      const res = await fetch("/verify_token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ idToken }),
+      });
+
+      if (res.ok) {
+        alert("Registration successful!");
+        window.location.href = "/dashboard";
+      } else {
+        alert("Registration failed.");
+      }
+    } catch (error) {
+      if (error.code === "auth/popup-closed-by-user") {
+        alert("You closed the popup before completing sign-in.");
+      } else {
+        console.error("Google sign-up error:", error);
+        alert("Error: " + error.message);
+      }
+    }
+  };
+</script>
+
+    </script>
+  </body>
+</html>

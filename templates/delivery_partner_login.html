@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #800020;
+            --secondary-color: #FFD700;
+            --background-color: #FFFFF0;
+            --text-color: #2F4F4F;
+            --footer-bg: #000000;
+            --footer-text: #F5F5F5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: url("{{ url_for('static', filename='brett-jordan-phUtWl8RyFE-unsplash.jpg') }}") no-repeat center center/cover;
+            font-family: 'Arial', sans-serif;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            width: 60%;
+            max-width: 600px;
+            margin: 2rem auto;
+            flex: 1;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .logo {
+            width: 50px; /* Adjust this if you want a bigger/smaller circle */
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden; /* Ensures no extra space around */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* THIS perfectly fills the circle */
+            display: block;
+            border-radius: 50%; /* Just in case for extra assurance */
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 3rem;
+            color: rgb(245, 244, 238);
+            font-weight: bold;
+        }
+
+        form {
+            width: 100%;
+            max-width: 400px;
+            margin: 2rem auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 2px solid var(--primary-color);
+            backdrop-filter: blur(8px);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        label {
+            font-weight: bold;
+            color: rgb(245, 244, 238);
+            font-size: 1.1rem;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            background: transparent;
+            border: 1px solid black;
+            border-radius: 5px;
+            padding: 0.5rem;
+        }
+
+        .icon-circle {
+            background: var(--primary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 0.5rem;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            background: transparent;
+            padding: 0.75rem;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            font-weight: bold;
+            color: rgb(245, 244, 238);
+            width: 100%;
+        }
+
+        input[type="text"]::placeholder,
+        input[type="password"]::placeholder {
+            color: rgba(0, 0, 0, 0.8);
+            font-weight: bold;
+        }
+
+        button {
+            padding: 0.75rem 1.5rem;
+            background: var(--primary-color);
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background: var(--secondary-color);
+            color: black;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            background: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 1rem 0;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .brand-name {
+            font-size: 1.5rem; /* Adjust text size */
+            color: white; /* Text color */
+            font-weight: bold;
+            margin-left: 0.5rem; /* Add space between logo and name */
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="logo-container">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='logo2.png') }}" alt="Logo">
+            </div>
+            <div class="brand-name">Post Samay Setu</div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="/contactus"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
+    </header>
+
+    <section class="container">
+        <h1>Delivery Partner Login</h1>
+        <form method="POST">
+            <label for="username">Username:</label>
+            <div class="input-group">
+                <div class="icon-circle">
+                    <i class="fas fa-user"></i>
+                </div>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+            </div>
+
+            <label for="password">Password:</label>
+            <div class="input-group">
+                <div class="icon-circle">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+
+            <button type="submit">Login</button>
+        </form>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2025 Delivery System. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>

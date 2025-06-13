@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    
+    <style>
+      :root {
+        --primary-color: #800020;
+        --secondary-color: #ffd700;
+        --background-color: #fffff0;
+        --text-color: #2f4f4f;
+        --footer-bg: #000000;
+        --footer-text: #f5f5f5;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: url("{{ url_for('static', filename='brett-jordan-phUtWl8RyFE-unsplash.jpg') }}")
+          no-repeat center center/cover;
+        font-family: "Arial", sans-serif;
+        color: var(--text-color);
+        background-color: var(--background-color);
+        line-height: 1.6;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .container {
+        width: 60%;
+        max-width: 600px;
+        margin: 2rem auto;
+        flex: 1;
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--primary-color);
+        color: white;
+        padding: 1rem;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+      }
+
+      .logo {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+        margin: 0;
+      }
+
+      .logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        border-radius: 50%;
+      }
+
+      .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 1rem;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      .nav-links a:hover {
+        text-decoration: underline;
+      }
+
+      h1 {
+        text-align: center;
+        margin-top: 3rem;
+        color: rgb(245, 244, 238);
+        font-weight: bold;
+      }
+
+      form {
+        width: 100%;
+        max-width: 400px;
+        margin: 2rem auto;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border: 2px solid var(--primary-color);
+        backdrop-filter: blur(8px);
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      label {
+        font-weight: bold;
+        color: rgb(245, 244, 238);
+        font-size: 1.1rem;
+      }
+
+      .input-group {
+        display: flex;
+        align-items: center;
+        background: transparent;
+        border: 1px solid black;
+        border-radius: 5px;
+        padding: 0.5rem;
+      }
+
+      .icon-circle {
+        background: var(--primary-color);
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 0.5rem;
+      }
+
+      input[type="text"],
+      input[type="password"] {
+        background: transparent;
+        padding: 0.75rem;
+        border: none;
+        outline: none;
+        font-size: 1rem;
+        font-weight: bold;
+        color: rgb(245, 244, 238);
+        width: 100%;
+      }
+
+      input[type="text"]::placeholder,
+      input[type="password"]::placeholder {
+        color: rgba(0, 0, 0, 0.8);
+        font-weight: bold;
+      }
+
+      button {
+        padding: 0.75rem 1.5rem;
+        background: var(--primary-color);
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+      }
+
+      button:hover {
+        background: var(--secondary-color);
+        color: black;
+      }
+
+      a {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 0.95rem;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .footer {
+        background: var(--footer-bg);
+        color: var(--footer-text);
+        padding: 1rem 0;
+        text-align: center;
+        margin-top: auto;
+      }
+
+      .brand-name {
+        font-size: 1.5rem;
+        color: white;
+        font-weight: bold;
+        margin-left: 0.5rem;
+      }
+
+      .or-divider {
+        text-align: center;
+        position: relative;
+        margin: 1.5rem 0;
+      }
+
+      .or-divider hr {
+        border: none;
+        border-top: 1px solid rgba(0, 0, 0, 0.3);
+      }
+
+      .or-divider span {
+        position: absolute;
+        top: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(255, 255, 255, 0.7);
+        padding: 0 10px;
+        font-weight: bold;
+        color: var(--text-color);
+      }
+
+      .google-btn {
+        background: white;
+        color: var(--primary-color);
+        border: 2px solid var(--primary-color);
+        padding: 0.6rem 1.2rem;
+        font-weight: bold;
+        font-size: 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .google-btn:hover {
+        background: var(--secondary-color);
+        color: black;
+        border-color: var(--secondary-color);
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="navbar">
+      <div class="logo-container">
+        <div class="logo">
+          <img src="{{ url_for('static', filename='logo2.png') }}" alt="Logo" />
+        </div>
+        <div class="brand-name">Post Samay Setu</div>
+      </div>
+      <ul class="nav-links">
+        <li>
+          <a href="/"><i class="fas fa-home"></i> Home</a>
+        </li>
+        <li>
+          <a href="/contactus"><i class="fas fa-envelope"></i> Contact</a>
+        </li>
+      </ul>
+    </header>
+
+    <section class="container">
+      <h1>Login</h1>
+      <form method="POST">
+        <label for="username">Username:</label>
+        <div class="input-group">
+          <div class="icon-circle">
+            <i class="fas fa-user"></i>
+          </div>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Enter your username"
+            required
+          />
+        </div>
+
+        <label for="password">Password:</label>
+        <div class="input-group">
+          <div class="icon-circle">
+            <i class="fas fa-lock"></i>
+          </div>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            required
+          />
+        </div>
+
+        <button type="submit">Login</button>
+
+        <!-- OR divider -->
+        <div class="or-divider">
+          <hr />
+          <span>or</span>
+        </div>
+
+        <!-- Google Sign-In Button -->
+        <div style="display: flex; justify-content: center">
+          <div style="text-align: center">
+            <button
+              type="button"
+              class="google-btn"
+              onclick="loginWithGoogle()"
+            >
+              <i class="fab fa-google"></i> Sign in with Google
+            </button>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 1rem">
+          <a href="/register">Not a User?</a> |
+          <a href="/forgot-password">Forgot Password?</a>
+        </div>
+      </form>
+    </section>
+
+    <footer class="footer">
+      <p>&copy; 2025 Delivery System. All rights reserved.</p>
+    </footer>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js"></script>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+      import {
+        getAuth,
+        GoogleAuthProvider,
+        signInWithPopup,
+      } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyDGafZMBlvhq9PmG2_XETGFMO1F3xiu-JU",
+        authDomain: "postsamaysetu-b1745.firebaseapp.com",
+        projectId: "postsamaysetu-b1745",
+        appId: "1:648461531295:web:60308d5586b7b500d58aaa",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth();
+      const provider = new GoogleAuthProvider();
+
+      window.loginWithGoogle = async function () {
+        try {
+          const result = await signInWithPopup(auth, provider);
+          const user = result.user;
+          const idToken = await user.getIdToken();
+
+          // Send token to Flask
+          const res = await fetch("/google-login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ idToken }),
+          });
+
+          if (res.ok) {
+            alert("Login successful!");
+            window.location.href = "/dashboard"; // redirect
+          } else {
+            alert("Login failed.");
+          }
+        } catch (error) {
+           if (error.code === "auth/popup-closed-by-user") {
+            alert("You closed the popup before completing sign-in.");
+          } else {
+            console.error("Google sign-in error:", error);
+            alert("Error: " + error.message);
+          }
+        }
+      };
+    </script>
+  </body>
+</html>

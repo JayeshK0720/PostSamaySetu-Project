@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Parcel</title>
+    <style>
+        :root {
+            --primary-color: #800020;
+            --secondary-color: #FFD700;
+            --background-color: #FFFFF0;
+            --text-color: #2F4F4F;
+            --footer-bg: #000000;
+            --footer-text: #F5F5F5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: url("{{ url_for('static', filename='kira-auf-der-heide-IPx7J1n_xUc-unsplash.jpg') }}") no-repeat center center/cover;
+            font-family: 'Arial', sans-serif;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1.5rem; /* Consistent padding */
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            margin-left: auto; /* Push nav links to the right */
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        .nav-links a.active {
+            font-weight: bold;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 2rem auto;
+            flex: 1;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        form {
+            background: var(--primary-color);
+            color: white;
+            padding: 2rem;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--secondary-color);
+            border-radius: 5px;
+        }
+
+        input[type="checkbox"] {
+            width: auto;
+            margin-right: 0.5rem;
+        }
+
+        button {
+            background: var(--secondary-color);
+            color: var(--primary-color);
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+        }
+
+        button:hover {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        .footer {
+            background: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 1rem 0;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: var(--footer-text);
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .brand-name {
+            font-size: 1.5rem;
+            color: white;
+            font-weight: bold;
+            margin-left: 0.5rem;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ✅ Navbar with Logo and Title -->
+    <header class="navbar">
+        <div class="logo-container" style="display: flex; align-items: center;">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='logo2.png') }}" alt="Logo">
+            </div>
+            <div class="brand-name">Post Samay Setu</div>
+        </div>
+
+        <!-- ✅ Nav Links aligned to the right -->
+        <ul class="nav-links">
+            <li><a href="/track_parcel"><i class="fas fa-map-marker-alt"></i> Tracking</a></li>
+            <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+
+        </ul>
+    </header>
+
+    <!-- ✅ Parcel Sending Form -->
+    <section class="container">
+        <h1>Send a Parcel</h1>
+        <form action="/send-parcel" method="POST">
+            <label for="recipient_id">Recipient Unique ID:</label>
+            <input type="text" id="recipient_id" name="recipient_id" required>
+
+            <label for="size">Parcel Size:</label>
+            <input type="text" id="size" name="size" required>
+
+            <label for="weight">Parcel Weight:</label>
+            <input type="text" id="weight" name="weight" required>
+
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" required>
+
+            <label for="delivery_option">Delivery Option:</label>
+            <select id="delivery_option" name="delivery_option" required>
+                <option value="Fast">Fast Delivery</option>
+                <option value="Regular">Regular Delivery</option>
+            </select>
+
+            <label for="insurance">
+                <input type="checkbox" id="insurance" name="insurance" value="Yes"> Parcel Insurance (for valuable
+                items)
+            </label>
+
+            <button type="submit">Send Parcel</button>
+        </form>
+    </section>
+
+    <!-- ✅ Footer -->
+    <footer class="footer">
+        <ul class="footer-links"></ul>
+        <p>&copy; 2024 Delivery System. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>
