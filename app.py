@@ -322,44 +322,44 @@ def register():
 
     return render_template('register.html')
 
-@app.route('/verify_token', methods=['POST'])
-def verify_token():
-    data = request.get_json()
-    id_token = data.get('idToken')
+# @app.route('/verify_token', methods=['POST'])
+# def verify_token():
+#     data = request.get_json()
+#     id_token = data.get('idToken')
 
-    try:
-        # Verify the Firebase token
-        decoded_token = firebase_auth.verify_id_token(id_token)
-        uid = decoded_token['uid']
-        email = decoded_token.get('email')
-        name = decoded_token.get('name')
+#     try:
+#         # Verify the Firebase token
+#         decoded_token = firebase_auth.verify_id_token(id_token)
+#         uid = decoded_token['uid']
+#         email = decoded_token.get('email')
+#         name = decoded_token.get('name')
 
-        # Save to SQLite
-        conn = sqlite3.connect('delivery.db')
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
+#         # Save to SQLite
+#         conn = sqlite3.connect('delivery.db')
+#         conn.row_factory = sqlite3.Row
+#         cursor = conn.cursor()
 
-        # Check if user already exists
-        cursor.execute("SELECT * FROM users WHERE firebase_uid = ?", (uid,))
-        user = cursor.fetchone()
+#         # Check if user already exists
+#         cursor.execute("SELECT * FROM users WHERE firebase_uid = ?", (uid,))
+#         user = cursor.fetchone()
 
-        if not user:
-            cursor.execute(
-                "INSERT INTO users (username, email, firebase_uid) VALUES (?, ?, ?)",
-                (name, email, uid)
-            )
-            conn.commit()
-            user_id = cursor.lastrowid
-        else:
-            user_id = user["id"]
+#         if not user:
+#             cursor.execute(
+#                 "INSERT INTO users (username, email, firebase_uid) VALUES (?, ?, ?)",
+#                 (name, email, uid)
+#             )
+#             conn.commit()
+#             user_id = cursor.lastrowid
+#         else:
+#             user_id = user["id"]
 
-        conn.close()
+#         conn.close()
 
-        return jsonify({"message": "Login successful"}), 200
+#         return jsonify({"message": "Login successful"}), 200
 
-    except Exception as e:
-        print("Token verification failed:", e)
-        return jsonify({"error": str(e)}), 400
+#     except Exception as e:
+#         print("Token verification failed:", e)
+#         return jsonify({"error": str(e)}), 400
 
 
 
