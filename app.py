@@ -256,6 +256,9 @@ def suggest_time_slot(address_input):
 def home():
     return render_template('home.html')
 
+def handler(request):
+    return app(request.environ, start_response)
+
 @app.route('/contactus')
 def contactus():
     return render_template('contactus.html')
