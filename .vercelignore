@@ -1,0 +1,7 @@
+# .vercelignore
+*.pdf
+*.csv
+*.xlsx
+data/
+models/
+__pycache__/
