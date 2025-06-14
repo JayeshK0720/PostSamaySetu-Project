@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Dashboard</title>
+    <link rel="icon" href="{{ url_for('static', filename='logo2.png') }}" type="image/x-icon">
 
-    <!-- ✅ Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <style>
@@ -72,10 +72,10 @@
         }
 
         .brand-name {
-            font-size: 1.5rem; /* Adjust text size */
-            color: white; /* Text color */
+            font-size: 1.5rem; 
+            color: white; 
             font-weight: bold;
-            margin-left: 0.5rem; /* Add space between logo and name */
+            margin-left: 0.5rem;
         }
 
         .nav-links {
@@ -192,7 +192,7 @@
             margin-top: auto;
         }
 
-        /* 🎨 Responsive Design */
+        /* Responsive Design */
         @media (max-width: 768px) {
             .nav-links {
                 flex-direction: column;
@@ -208,7 +208,7 @@
     </style>
 </head>
 <body>
-    <!-- ✅ Navbar with Logo and Title -->
+    <!-- Navbar with Logo and Title -->
     <header class="navbar">
         <div class="brand-container">
             <div class="logo">
@@ -217,7 +217,7 @@
             <div class="brand-name">Post Samay Setu</div>
         </div>
 
-        <!-- ✅ Navigation Links with Icons -->
+        <!-- Navigation Links with Icons -->
         <ul class="nav-links">
             <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
             <li><a href="/send-parcel"><i class="fas fa-box"></i> Services</a></li>
@@ -228,7 +228,7 @@
         </ul>
     </header>
 
-    <!-- ✅ Main Section with Available Functions -->
+    <!-- Main Section with Available Functions -->
     <section class="container">
         <h1>Welcome, {{ user[1] }}</h1>
         <p>Your Unique User ID: <strong>{{ user[7] }}</strong></p>
@@ -238,13 +238,13 @@
             <a href="/profile"><i class="fas fa-user-circle"></i> Profile</a>
         </div>
 
-        <!-- ✅ Chatbot with Hover Effect -->
+        <!-- Chatbot with Hover Effect -->
         <a href="/chatbot" class="chatbot-logo">
             <i class="fas fa-robot"></i>
         </a>
     </section>
 
-    <!-- ✅ Footer Section -->
+    <!-- Footer Section -->
     <footer class="footer">
         <p>&copy; 2025 Post Samay Setu. All rights reserved.</p>
     </footer>

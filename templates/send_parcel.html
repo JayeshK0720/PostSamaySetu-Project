@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Send Parcel</title>
+    <link rel="icon" href="{{ url_for('static', filename='logo2.png') }}" type="image/x-icon">
     <style>
         :root {
             --primary-color: #800020;
@@ -177,7 +178,7 @@
 </head>
 
 <body>
-    <!-- ✅ Navbar with Logo and Title -->
+    <!-- Navbar with Logo and Title -->
     <header class="navbar">
         <div class="logo-container" style="display: flex; align-items: center;">
             <div class="logo">
@@ -186,7 +187,7 @@
             <div class="brand-name">Post Samay Setu</div>
         </div>
 
-        <!-- ✅ Nav Links aligned to the right -->
+        <!-- Nav Links aligned to the right -->
         <ul class="nav-links">
             <li><a href="/track_parcel"><i class="fas fa-map-marker-alt"></i> Tracking</a></li>
             <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
@@ -194,7 +195,7 @@
         </ul>
     </header>
 
-    <!-- ✅ Parcel Sending Form -->
+    <!-- Parcel Sending Form -->
     <section class="container">
         <h1>Send a Parcel</h1>
         <form action="/send-parcel" method="POST">
@@ -225,7 +226,7 @@
         </form>
     </section>
 
-    <!-- ✅ Footer -->
+    <!-- Footer -->
     <footer class="footer">
         <ul class="footer-links"></ul>
         <p>&copy; 2024 Delivery System. All rights reserved.</p>
